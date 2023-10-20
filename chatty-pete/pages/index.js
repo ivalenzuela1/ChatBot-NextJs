@@ -9,18 +9,32 @@ export default function Home() {
   if (error) return <div>={error.message}</div>;
 
   return (
-    <div>
+    <>
       <Head>
-        <title>Next JS ChatGPT Starter</title>
+        <title>Chatty Pete - Login or Signup</title>
       </Head>
-      <h1>Welcome to the Next JS &amp; ChatGPT Starter</h1>
-      <div>
-        {user ? (
-          <Link href="/api/auth/logout">Logout</Link>
-        ) : (
-          <Link href="/api/auth/login">Login</Link>
-        )}
+      <div className="flex min-h-screen w-full items-center justify-center bg-gray-800 text-center text-white">
+        <div>
+          {user ? (
+            <Link href="/api/auth/logout">Logout</Link>
+          ) : (
+            <div className="flex gap-4">
+              <Link
+                href="/api/auth/login"
+                className="rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600"
+              >
+                Log in
+              </Link>
+              <Link
+                href="/api/auth/login"
+                className="rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
