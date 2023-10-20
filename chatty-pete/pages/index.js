@@ -20,16 +20,10 @@ export default function Home() {
             <Link href="/api/auth/logout">Logout</Link>
           ) : (
             <div className="flex gap-4">
-              <Link
-                href="/api/auth/login"
-                className="rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600"
-              >
+              <Link href="/api/auth/login" className="btn">
                 Log in
               </Link>
-              <Link
-                href="/api/auth/signup"
-                className="rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600"
-              >
+              <Link href="/api/auth/signup" className="btn">
                 Sign Up
               </Link>
             </div>
@@ -49,4 +43,9 @@ export const getServerSideProps = async (ctx) => {
       },
     };
   }
+
+  return {
+    props: {},
+  };
 };
+// /
