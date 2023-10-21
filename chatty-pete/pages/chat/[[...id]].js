@@ -11,6 +11,13 @@ export default function ChatPage() {
   const [newChatMessages, setNewChatMessages] = useState([]);
   const [generatingResponse, setGeneratingResponse] = useState(false);
 
+  const onEnterPress = (e) => {
+    if (e.keyCode == 13 && e.shiftKey == false) {
+      e.preventDefault();
+      console.log("TEST");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setGeneratingResponse(true);
@@ -59,8 +66,8 @@ export default function ChatPage() {
       </Head>
       <div className="grid h-screen grid-cols-[260px_1fr]">
         <ChatSidebar />
-        <div className="flex flex-col bg-gray-700">
-          <div className="flex-1 text-white">
+        <div className="flex flex-col overflow-hidden bg-gray-700">
+          <div className="flex-1 overflow-scroll text-white">
             {newChatMessages.map((message) => (
               <Message
                 key={message._id}
@@ -82,6 +89,7 @@ export default function ChatPage() {
                   onChange={(e) => setMessageText(e.target.value)}
                   placeholder={generatingResponse ? "" : "Send a message..."}
                   className="w-full resize-none rounded-md bg-gray-700 p-2 text-white focus:border-emerald-500 focus:bg-gray-600 focus:outline focus:outline-emerald-500"
+                  onKeyDown={onEnterPress}
                 />
                 <button type="submit" className="btn">
                   Send
@@ -94,4 +102,3 @@ export default function ChatPage() {
     </>
   );
 }
-//
