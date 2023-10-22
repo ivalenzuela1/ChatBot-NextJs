@@ -5,14 +5,15 @@ export default async function handler(req, res) {
   try {
     const { user } = await getSession(req, res);
     const { message } = req.body;
+
     const newUserMessage = {
       role: "user",
-      content: "message",
+      content: message,
     };
 
     const client = await clientPromise;
     const db = client.db(process.env.MONGODB_NAME);
-    const chat = await db.collections("chats").insertOne({
+    const chat = await db.collection("chats").insertOne({
       userId: user.sub,
       messages: [newUserMessage],
       title: message,
