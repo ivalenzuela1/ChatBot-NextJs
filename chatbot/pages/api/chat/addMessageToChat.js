@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     // TODO: chat returning NULL
     const chat = await db.collection("chats").findOneAndUpdate(
       {
-        id_: new ObjectId(chatId),
+        _id: new ObjectId(chatId),
         userId: user.sub,
       },
       {
