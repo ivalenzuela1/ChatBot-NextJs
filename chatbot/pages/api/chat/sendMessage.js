@@ -15,8 +15,10 @@ export default async function handler(req) {
     };
 
     let newChatId;
+    let chatMessages = [];
 
     if (chatId) {
+      // add message to chat
       const response = await fetch(
         `${req.headers.get("origin")}/api/chat/addMessageToChat`,
         {
@@ -32,6 +34,10 @@ export default async function handler(req) {
           }),
         }
       );
+      // constraints 16,000 (4,096 tokens) character limit
+      //
+      const json = await response.json();
+      chatMessages = json.chat.messages || [];
     } else {
       // Create a new chat
       const response = await fetch(
@@ -51,7 +57,26 @@ export default async function handler(req) {
       const json = await response.json();
       chatId = json._id;
       newChatId = json._id;
+      chatMessages = json.messages || [];
     }
+
+    // calculate token usage
+    const messagesToInclude = [];
+    // reverse order (we care about the latest messages)
+    chatMessages.reverse();
+    let usedTokens = 0;
+    for (let chatMessage of chatMessages) {
+      // get number of tokens for the content
+      const messageTokens = chatMessage.content.length / 4;
+      usedTokens = usedTokens + messageTokens;
+      if (usedTokens <= 2000) {
+        messagesToInclude.push(chatMessage);
+      } else {
+        break;
+      }
+    }
+
+    messagesToInclude.reverse();
 
     const stream = await OpenAIEdgeStream(
       "https://api.openai.com/v1/chat/completions",
@@ -63,13 +88,7 @@ export default async function handler(req) {
         method: "POST",
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
-          messages: [
-            initialChatMessage,
-            {
-              role: "user",
-              content: message,
-            },
-          ],
+          messages: [initialChatMessage, ...messagesToInclude],
           stream: true,
         }),
       },
