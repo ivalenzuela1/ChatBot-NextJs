@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Chatty Pete - Login or Signup</title>
+        <title>ChatBot - Login or Signup</title>
       </Head>
       <div className="flex min-h-screen w-full items-center justify-center bg-gray-800 text-center text-white">
         <div>
