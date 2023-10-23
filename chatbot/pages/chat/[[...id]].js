@@ -10,14 +10,16 @@ import { ObjectId } from "mongodb";
 import clientPromise from "lib/mongodb";
 
 export default function ChatPage({ chatId, title, messages = [] }) {
-  console.log("Props:", title, messages);
   const [messageText, setMessageText] = useState("");
   const [incomingMessage, setIncomingMessage] = useState("");
   const [newChatMessages, setNewChatMessages] = useState([]);
   const [generatingResponse, setGeneratingResponse] = useState(false);
   const [newChatId, setNewChatId] = useState(null);
   const [fullMessage, setFullMessage] = useState("");
+  const [originalChatId, setOriginalChatId] = useState(chatId);
   const router = useRouter();
+
+  const routeHasChanged = chatId !== originalChatId;
 
   // reset newChatMessages and newChatId when chatId changes (when our route changes)
   useEffect(() => {
@@ -27,7 +29,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
 
   // save newly streamed message to new chat messages
   useEffect(() => {
-    if (!generatingResponse && fullMessage) {
+    if (!routeHasChanged && !generatingResponse && fullMessage) {
       setNewChatMessages((prev) => [
         ...prev,
         {
@@ -38,7 +40,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
       ]);
       setFullMessage("");
     }
-  }, [generatingResponse, fullMessage]);
+  }, [generatingResponse, fullMessage, routeHasChanged]);
 
   // When we create a new chat
   useEffect(() => {
@@ -58,6 +60,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setGeneratingResponse(true);
+    setOriginalChatId(chatId);
 
     setNewChatMessages((prev) => {
       const newChatMessages = [
@@ -124,10 +127,14 @@ export default function ChatPage({ chatId, title, messages = [] }) {
                 content={message.content}
               />
             ))}
-            {incomingMessage ? (
+            {!!incomingMessage && !routeHasChanged && (
               <Message role="assistant" content={incomingMessage} />
-            ) : (
-              ""
+            )}
+            {!!incomingMessage && !!routeHasChanged && (
+              <Message
+                role="notice"
+                content="Only one message at a time. Please allow responses to complete before sending another message"
+              />
             )}
           </div>
           <footer className="bg-gray-800 p-10">
