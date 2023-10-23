@@ -12,8 +12,6 @@ export const ChatSidebar = ({ chatId }) => {
 
   // UseEffect will run when ChatId changes.
   useEffect(() => {
-    console.log("chatId");
-    console.log(chatId);
     const loadChatList = async () => {
       const response = await fetch(`/api/chat/getChatList`, {
         method: "POST",
@@ -44,7 +42,12 @@ export const ChatSidebar = ({ chatId }) => {
               }`}
             >
               <FontAwesomeIcon icon={faMessage} />
-              {chat.title}
+              <span
+                className="overflow-hidden text-ellipsis whitespace-nowrap"
+                title={chat.title}
+              >
+                {chat.title}
+              </span>
             </Link>
           );
         })}
