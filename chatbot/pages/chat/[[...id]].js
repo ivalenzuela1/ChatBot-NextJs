@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import { getSession } from "@auth0/nextjs-auth0";
 import { ObjectId } from "mongodb";
 import clientPromise from "lib/mongodb";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRobot } from "@fortawesome/free-solid-svg-icons";
 
 export default function ChatPage({ chatId, title, messages = [] }) {
   const [messageText, setMessageText] = useState("");
@@ -120,24 +122,39 @@ export default function ChatPage({ chatId, title, messages = [] }) {
         <ChatSidebar chatId={chatId} />
         <div className="flex flex-col overflow-hidden bg-gray-700">
           <div className="flex flex-1 flex-col-reverse overflow-scroll text-white">
-            <div className="mb-auto">
-              {allChatMessages.map((message) => (
-                <Message
-                  key={message._id}
-                  role={message.role}
-                  content={message.content}
-                />
-              ))}
-              {!!incomingMessage && !routeHasChanged && (
-                <Message role="assistant" content={incomingMessage} />
-              )}
-              {!!incomingMessage && !!routeHasChanged && (
-                <Message
-                  role="notice"
-                  content="Only one message at a time. Please allow responses to complete before sending another message"
-                />
-              )}
-            </div>
+            {!allChatMessages.length && !incomingMessage && (
+              <div className="m-auto flex items-center justify-center text-center">
+                <div>
+                  <FontAwesomeIcon
+                    icon={faRobot}
+                    className="mb-2 text-8xl text-emerald-200"
+                  />
+                  <h1 className="mt-2 text-4xl font-bold text-white/50">
+                    Ask me a question!
+                  </h1>
+                </div>
+              </div>
+            )}
+            {!!allChatMessages.length && (
+              <div className="mb-auto">
+                {allChatMessages.map((message) => (
+                  <Message
+                    key={message._id}
+                    role={message.role}
+                    content={message.content}
+                  />
+                ))}
+                {!!incomingMessage && !routeHasChanged && (
+                  <Message role="assistant" content={incomingMessage} />
+                )}
+                {!!incomingMessage && !!routeHasChanged && (
+                  <Message
+                    role="notice"
+                    content="Only one message at a time. Please allow responses to complete before sending another message"
+                  />
+                )}
+              </div>
+            )}
           </div>
           <footer className="bg-gray-800 p-10">
             <form onSubmit={handleSubmit}>

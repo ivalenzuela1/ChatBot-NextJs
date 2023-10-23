@@ -41,7 +41,7 @@ export const ChatSidebar = ({ chatId }) => {
                 chatId === chat._id ? "bg-gray-700 hover:bg-gray-700" : ""
               }`}
             >
-              <FontAwesomeIcon icon={faMessage} />
+              <FontAwesomeIcon icon={faMessage} className="text-white/50" />
               <span
                 className="overflow-hidden text-ellipsis whitespace-nowrap"
                 title={chat.title}
