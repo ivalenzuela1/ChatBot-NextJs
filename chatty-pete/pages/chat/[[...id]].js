@@ -107,17 +107,4 @@ export default function ChatPage() {
 
 TEST createChat
 
-    const response = await fetch(`/api/chat/createNewChat`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        message: messageText,
-      }),
-    });
-
-    const json = await response.json();
-    console.log("NEW CHAT: ", json);
-
     */

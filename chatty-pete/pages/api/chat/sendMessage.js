@@ -13,6 +13,23 @@ export default async function handler(req) {
         "Your name is Chatty Pete. An incredible intelligent and quick-thinking AI, that always replies with an entusiastic and positive energy. You were created by Ignacio and your response must be formatted as markdown",
     };
 
+    const response = await fetch(
+      `${req.headers.get("origin")}/api/chat/createNewChat`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          cookie: req.header.get("cookie"),
+        },
+        body: JSON.stringify({
+          message,
+        }),
+      }
+    );
+
+    const json = await response.json();
+    const chatId = json._id;
+
     const stream = await OpenAIEdgeStream(
       "https://api.openai.com/v1/chat/completions",
       {
@@ -32,6 +49,9 @@ export default async function handler(req) {
           ],
           stream: true,
         }),
+      },
+      {
+        onAfterStream: async ({ fullContent }) => {},
       }
     );
 
