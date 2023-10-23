@@ -29,8 +29,6 @@ export default async function handler(req) {
 
     const json = await response.json();
     const chatId = json._id;
-    console.log("chatId");
-    console.log(chatId);
 
     const stream = await OpenAIEdgeStream(
       "https://api.openai.com/v1/chat/completions",
