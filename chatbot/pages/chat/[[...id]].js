@@ -55,6 +55,7 @@ export default function ChatPage() {
     const reader = data.getReader();
 
     await streamReader(reader, (message) => {
+      console.log("MESSAGE:", message);
       setIncomingMessage((s) => `${s}${message.content}`);
     });
     setGeneratingResponse(false);
@@ -102,9 +103,3 @@ export default function ChatPage() {
     </>
   );
 }
-
-/* 
-
-TEST createChat
-
-    */
