@@ -8,21 +8,8 @@ export default async function handler(req, res) {
     const client = await clientPromise;
     const db = client.db(process.env.MONGODB_NAME);
 
-    console.log("addMessageToChat!!!");
-    console.log(user);
-
     const { chatId, role, content } = req.body;
 
-    console.log("chatId!!!");
-    console.log(chatId);
-    console.log("role!!!");
-    console.log(role);
-    console.log("content!!!");
-    console.log(content);
-    console.log("user.sub!!!");
-    console.log(user.sub);
-
-    // TODO: chat returning NULL
     const chat = await db.collection("chats").findOneAndUpdate(
       {
         _id: new ObjectId(chatId),
@@ -40,11 +27,6 @@ export default async function handler(req, res) {
         returnDocument: "after",
       }
     );
-
-    console.log("chat!!!");
-    console.log(chat);
-    console.log("value!!!");
-    console.log(chat.value);
 
     res.status(200).json({
       chat: {
