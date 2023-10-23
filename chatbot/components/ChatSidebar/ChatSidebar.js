@@ -7,9 +7,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export const ChatSidebar = () => {
+export const ChatSidebar = ({ chatId }) => {
   const [chatList, setChatList] = useState([]);
+
+  // UseEffect will run when ChatId changes.
   useEffect(() => {
+    console.log("chatId");
+    console.log(chatId);
     const loadChatList = async () => {
       const response = await fetch(`/api/chat/getChatList`, {
         method: "POST",
@@ -19,7 +23,7 @@ export const ChatSidebar = () => {
     };
 
     loadChatList();
-  }, []);
+  }, [chatId]);
   return (
     <div className="flex flex-col overflow-hidden bg-gray-900 text-white">
       <Link
@@ -35,7 +39,9 @@ export const ChatSidebar = () => {
             <Link
               href={`/chat/${chat._id}`}
               key={chat._id}
-              className="side-menu-item"
+              className={`side-menu-item ${
+                chatId === chat._id ? "bg-gray-700 hover:bg-gray-700" : ""
+              }`}
             >
               <FontAwesomeIcon icon={faMessage} />
               {chat.title}
