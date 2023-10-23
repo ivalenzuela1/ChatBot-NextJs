@@ -10,7 +10,7 @@ export default async function handler(req) {
     const initialChatMessage = {
       role: "system",
       content:
-        "Your name is Chatty Pete. An incredible intelligent and quick-thinking AI, that always replies with an entusiastic and positive energy. You were created by Ignacio and your response must be formatted as markdown",
+        "Your name is Chatbot. An incredible intelligent and quick-thinking AI, that always replies with an entusiastic and positive energy. You were created by Ignacio and your response must be formatted as markdown",
     };
 
     const response = await fetch(
