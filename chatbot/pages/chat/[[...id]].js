@@ -52,10 +52,58 @@ export default function ChatPage({ chatId, title, messages = [] }) {
     }
   }, [generatingResponse, newChatId, router]);
 
-  const onEnterPress = (e) => {
+  const onEnterPress = async (e) => {
     if (e.keyCode == 13 && e.shiftKey == false) {
       e.preventDefault();
-      console.log("TEST");
+      setGeneratingResponse(true);
+      setOriginalChatId(chatId);
+
+      setNewChatMessages((prev) => {
+        const newChatMessages = [
+          ...prev,
+          {
+            _id: uuid(),
+            role: "user",
+            content: messageText,
+          },
+        ];
+        return newChatMessages;
+      });
+
+      setMessageText("");
+
+      const response = await fetch(`/api/chat/sendMessage`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          message: messageText,
+          chatId,
+        }),
+      });
+
+      const data = response.body;
+
+      if (!data) {
+        return;
+      }
+
+      const reader = data.getReader();
+      let content = "";
+      await streamReader(reader, (message) => {
+        if (message.event === "newChatId") {
+          setNewChatId(message.content);
+        } else {
+          setIncomingMessage((s) => `${s}${message.content}`);
+          content = content + message.content;
+        }
+      });
+
+      // Set incoming message to null
+      setIncomingMessage("");
+      setGeneratingResponse(false);
+      setFullMessage(content);
     }
   };
 
