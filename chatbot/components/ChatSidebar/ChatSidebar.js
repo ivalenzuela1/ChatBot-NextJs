@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export const ChatSidebar = ({ chatId, setOpen }) => {
+export const ChatSidebar = ({ chatId, setIsOpen }) => {
   const [chatList, setChatList] = useState([]);
 
   // UseEffect will run when ChatId changes.
@@ -26,40 +26,25 @@ export const ChatSidebar = ({ chatId, setOpen }) => {
   return (
     <>
       <div className="flex flex-col overflow-hidden bg-gray-900 text-white">
-        <div
-          className="text-1xl flex cursor-pointer items-center justify-center text-center text-white"
-          onClick={() => setOpen(false)}
-        >
-          <FontAwesomeIcon icon={faXmark} className="pr-2 " />
-          <div>Close</div>
-        </div>
-        {/*
-      <Link
-        href="/chat"
-        className="side-menu-item  bg-emerald-500 hover:bg-emerald-600"
-      >
-        <FontAwesomeIcon icon={faPlus} />
-        New Chat
-      </Link>
-  */}
         <div className="flex-1 overflow-auto bg-gray-950">
           {chatList.map((chat) => {
             return (
-              <Link
-                href={`/chat/${chat._id}`}
-                key={chat._id}
-                className={`side-menu-item ${
-                  chatId === chat._id ? "bg-gray-700 hover:bg-gray-700" : ""
-                }`}
-              >
-                <FontAwesomeIcon icon={faMessage} className="text-white/50" />
-                <span
-                  className="overflow-hidden text-ellipsis whitespace-nowrap"
-                  title={chat.title}
+              <div onClick={() => setIsOpen(false)} key={chat._id}>
+                <Link
+                  href={`/chat/${chat._id}`}
+                  className={`side-menu-item ${
+                    chatId === chat._id ? "bg-gray-700 hover:bg-gray-700" : ""
+                  }`}
                 >
-                  {chat.title}
-                </span>
-              </Link>
+                  <FontAwesomeIcon icon={faMessage} className="text-white/50" />
+                  <span
+                    className="overflow-hidden text-ellipsis whitespace-nowrap"
+                    title={chat.title}
+                  >
+                    {chat.title}
+                  </span>
+                </Link>
+              </div>
             );
           })}
         </div>

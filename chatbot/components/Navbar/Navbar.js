@@ -1,7 +1,7 @@
 import { faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-export const Navbar = ({ toggleSidebar, title, setOpen }) => {
+export const Navbar = ({ toggleSidebar, title, setIsOpen }) => {
   return (
     <>
       <nav className="sticky top-0 w-full bg-gray-800 shadow">
@@ -26,7 +26,7 @@ export const Navbar = ({ toggleSidebar, title, setOpen }) => {
             className="text-3xl text-white md:text-4xl"
             title="New Chat"
           >
-            <FontAwesomeIcon icon={faPlus} onClick={() => setOpen(false)} />
+            <FontAwesomeIcon icon={faPlus} onClick={() => setIsOpen(false)} />
           </Link>
         </div>
       </nav>
