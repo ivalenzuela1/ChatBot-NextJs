@@ -10,6 +10,7 @@ import { ObjectId } from "mongodb";
 import clientPromise from "lib/mongodb";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRobot } from "@fortawesome/free-solid-svg-icons";
+import { Navbar } from "components/Navbar";
 
 export default function ChatPage({ chatId, title, messages = [] }) {
   const [messageText, setMessageText] = useState("");
@@ -19,9 +20,13 @@ export default function ChatPage({ chatId, title, messages = [] }) {
   const [newChatId, setNewChatId] = useState(null);
   const [fullMessage, setFullMessage] = useState("");
   const [originalChatId, setOriginalChatId] = useState(chatId);
-  const router = useRouter();
+  const [isOpen, setOpen] = useState(true);
 
+  const router = useRouter();
   const routeHasChanged = chatId !== originalChatId;
+
+  // toggleSidebar
+  const toggleSidebar = () => setOpen(!isOpen);
 
   // reset newChatMessages and newChatId when chatId changes (when our route changes)
   useEffect(() => {
@@ -163,11 +168,12 @@ export default function ChatPage({ chatId, title, messages = [] }) {
   const allChatMessages = [...messages, ...newChatMessages];
   return (
     <>
+      <Navbar toggleSidebar={toggleSidebar} />
       <Head>
         <title>New Chat</title>
       </Head>
-      <div className="grid h-screen grid-cols-[260px_1fr]">
-        <ChatSidebar chatId={chatId} />
+      <div className={`${isOpen ? "grid h-screen grid-cols-[260px_1fr]" : "grid h-screen w-screen"}`}>
+        {isOpen ? <ChatSidebar chatId={chatId}/> : <div className="hidden"></div> }
         <div className="flex flex-col overflow-hidden bg-gray-700">
           <div className="flex flex-1 flex-col-reverse overflow-scroll text-white">
             {!allChatMessages.length && !incomingMessage && (
