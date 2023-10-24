@@ -20,7 +20,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
   const [newChatId, setNewChatId] = useState(null);
   const [fullMessage, setFullMessage] = useState("");
   const [originalChatId, setOriginalChatId] = useState(chatId);
-  const [isOpen, setOpen] = useState(true);
+  const [isOpen, setOpen] = useState(false);
 
   const router = useRouter();
   const routeHasChanged = chatId !== originalChatId;
@@ -167,8 +167,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
 
   const allChatMessages = [...messages, ...newChatMessages];
   return (
-    <>
-      <Navbar toggleSidebar={toggleSidebar} title={title} setOpen={setOpen} />
+    <div className="">
       <Head>
         <title>New Chat</title>
       </Head>
@@ -185,6 +184,11 @@ export default function ChatPage({ chatId, title, messages = [] }) {
           <div className="hidden"></div>
         )}
         <div className="flex flex-col overflow-hidden bg-gray-700">
+          <Navbar
+            toggleSidebar={toggleSidebar}
+            title={title}
+            setOpen={setOpen}
+          />
           <div className="flex flex-1 flex-col-reverse overflow-scroll text-white">
             {!allChatMessages.length && !incomingMessage && (
               <div className="m-auto flex items-center justify-center text-center">
@@ -238,7 +242,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
           </footer>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -281,3 +285,13 @@ export const getServerSideProps = async (ctx) => {
   }
   return { props: {} };
 };
+
+/*
+<div
+    className={`${
+      isOpen
+        ? "grid flex-1 grid-cols-[350px_1fr]"
+        : "grid flex-1 w-full"
+    }`}
+  >
+  */

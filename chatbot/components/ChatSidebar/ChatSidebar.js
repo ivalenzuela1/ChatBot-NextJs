@@ -26,12 +26,11 @@ export const ChatSidebar = ({ chatId, setOpen }) => {
   return (
     <>
       <div className="flex flex-col overflow-hidden bg-gray-900 text-white">
-        <div className="text-1xl flex cursor-pointer items-center justify-center text-center text-white">
-          <FontAwesomeIcon
-            icon={faXmark}
-            className="pr-2 "
-            onClick={() => setOpen(false)}
-          />
+        <div
+          className="text-1xl flex cursor-pointer items-center justify-center text-center text-white"
+          onClick={() => setOpen(false)}
+        >
+          <FontAwesomeIcon icon={faXmark} className="pr-2 " />
           <div>Close</div>
         </div>
         {/*
