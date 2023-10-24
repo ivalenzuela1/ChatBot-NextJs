@@ -20,13 +20,13 @@ export default function ChatPage({ chatId, title, messages = [] }) {
   const [newChatId, setNewChatId] = useState(null);
   const [fullMessage, setFullMessage] = useState("");
   const [originalChatId, setOriginalChatId] = useState(chatId);
-  const [isOpen, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
   const routeHasChanged = chatId !== originalChatId;
 
   // toggleSidebar
-  const toggleSidebar = () => setOpen(!isOpen);
+  const toggleSidebar = () => setIsOpen(!isOpen);
 
   // reset newChatMessages and newChatId when chatId changes (when our route changes)
   useEffect(() => {
@@ -168,7 +168,11 @@ export default function ChatPage({ chatId, title, messages = [] }) {
   const allChatMessages = [...messages, ...newChatMessages];
   return (
     <div className="flex h-screen flex-col overflow-hidden">
-      <Navbar toggleSidebar={toggleSidebar} title={title} setOpen={setOpen} />
+      <Navbar
+        toggleSidebar={toggleSidebar}
+        title={title}
+        setIsOpen={setIsOpen}
+      />
       <Head>
         <title>New Chat</title>
       </Head>
@@ -180,7 +184,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
         }`}
       >
         {isOpen ? (
-          <ChatSidebar chatId={chatId} setOpen={setOpen} />
+          <ChatSidebar chatId={chatId} setIsOpen={setIsOpen} />
         ) : (
           <div className="hidden"></div>
         )}
