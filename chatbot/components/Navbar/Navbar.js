@@ -13,10 +13,10 @@ export const Navbar = ({ toggleSidebar }) => {
         />
         <Link
         href="/chat"
-        className="side-menu-item  bg-emerald-500 hover:bg-emerald-600"
+        className="text-white text-3xl"
+        title="New Chat"
       >
         <FontAwesomeIcon icon={faPlus} />
-        New Chat
       </Link>
         </div>
       </nav>
