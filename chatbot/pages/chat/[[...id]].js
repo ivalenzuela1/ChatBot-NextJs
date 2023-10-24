@@ -186,7 +186,11 @@ export default function ChatPage({ chatId, title, messages = [] }) {
         )}
 
         <div className="flex flex-col overflow-hidden bg-gray-700">
-          <div className="flex flex-1 flex-col-reverse overflow-scroll text-white">
+          <div
+            className={`flex ${
+              isOpen ? "flex-col-reverse" : "flex-col"
+            } overflow-scroll text-white sm:flex-col-reverse`}
+          >
             {!allChatMessages.length && !incomingMessage && (
               <div className="m-auto flex items-center justify-center text-center">
                 <div>
@@ -221,7 +225,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
               </div>
             )}
           </div>
-          <footer className="mb-24 bg-gray-800 p-10">
+          <footer className="fixed bottom-0 w-full bg-gray-800 p-10 sm:static sm:mb-24">
             <form onSubmit={handleSubmit}>
               <fieldset className="flex gap-2" disabled={generatingResponse}>
                 <textarea
@@ -242,6 +246,9 @@ export default function ChatPage({ chatId, title, messages = [] }) {
     </div>
   );
 }
+
+// <div className="flex flex-1 flex-col-reverse overflow-scroll text-white">
+//<footer className="mb-24 bg-gray-800 p-10">
 
 export const getServerSideProps = async (ctx) => {
   const chatId = ctx.params?.id?.[0] || null;
