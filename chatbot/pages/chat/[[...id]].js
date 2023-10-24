@@ -167,7 +167,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
 
   const allChatMessages = [...messages, ...newChatMessages];
   return (
-    <div className="">
+    <div className="flex h-screen flex-col overflow-hidden">
       <Head>
         <title>New Chat</title>
       </Head>
