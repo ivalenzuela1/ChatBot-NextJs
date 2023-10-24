@@ -168,12 +168,22 @@ export default function ChatPage({ chatId, title, messages = [] }) {
   const allChatMessages = [...messages, ...newChatMessages];
   return (
     <>
-      <Navbar toggleSidebar={toggleSidebar} />
+      <Navbar toggleSidebar={toggleSidebar} title={title} />
       <Head>
         <title>New Chat</title>
       </Head>
-      <div className={`${isOpen ? "grid h-screen grid-cols-[260px_1fr]" : "grid h-screen w-screen"}`}>
-        {isOpen ? <ChatSidebar chatId={chatId}/> : <div className="hidden"></div> }
+      <div
+        className={`${
+          isOpen
+            ? "grid h-screen grid-cols-[260px_1fr]"
+            : "grid h-screen w-screen"
+        }`}
+      >
+        {isOpen ? (
+          <ChatSidebar chatId={chatId} />
+        ) : (
+          <div className="hidden"></div>
+        )}
         <div className="flex flex-col overflow-hidden bg-gray-700">
           <div className="flex flex-1 flex-col-reverse overflow-scroll text-white">
             {!allChatMessages.length && !incomingMessage && (
