@@ -168,6 +168,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
   const allChatMessages = [...messages, ...newChatMessages];
   return (
     <div className="flex h-screen flex-col overflow-hidden">
+      <Navbar toggleSidebar={toggleSidebar} title={title} setOpen={setOpen} />
       <Head>
         <title>New Chat</title>
       </Head>
@@ -183,12 +184,8 @@ export default function ChatPage({ chatId, title, messages = [] }) {
         ) : (
           <div className="hidden"></div>
         )}
+
         <div className="flex flex-col overflow-hidden bg-gray-700">
-          <Navbar
-            toggleSidebar={toggleSidebar}
-            title={title}
-            setOpen={setOpen}
-          />
           <div className="flex flex-1 flex-col-reverse overflow-scroll text-white">
             {!allChatMessages.length && !incomingMessage && (
               <div className="m-auto flex items-center justify-center text-center">
@@ -224,7 +221,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
               </div>
             )}
           </div>
-          <footer className="bg-gray-800 p-10">
+          <footer className="mb-24 bg-gray-800 p-10">
             <form onSubmit={handleSubmit}>
               <fieldset className="flex gap-2" disabled={generatingResponse}>
                 <textarea
