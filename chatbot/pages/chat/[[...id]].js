@@ -190,11 +190,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
         )}
 
         <div className="flex flex-col overflow-hidden bg-gray-700">
-          <div
-            className={`flex ${
-              isOpen ? "flex-col-reverse" : "flex-col"
-            } overflow-scroll text-white sm:flex-col-reverse`}
-          >
+          <div className="flex flex-1 flex-col-reverse overflow-scroll text-white">
             {!allChatMessages.length && !incomingMessage && (
               <div className="m-auto flex items-center justify-center text-center">
                 <div>
@@ -302,4 +298,10 @@ export const getServerSideProps = async (ctx) => {
         : "grid flex-1 w-full"
     }`}
   >
+
+  <div
+            className={`flex ${
+              isOpen ? "flex-col-reverse" : "flex-col"
+            } overflow-scroll text-white sm:flex-col-reverse`}
+          >
   */
