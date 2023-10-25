@@ -26,7 +26,7 @@ export const ChatSidebar = ({ chatId, setIsOpen }) => {
   return (
     <>
       <div className="flex flex-col overflow-hidden bg-gray-900 text-white">
-        <div className="flex-1 overflow-auto bg-gray-950">
+        <div className="overflow-auto bg-gray-950">
           {chatList.map((chat) => {
             return (
               <div onClick={() => setIsOpen(false)} key={chat._id}>
@@ -48,7 +48,7 @@ export const ChatSidebar = ({ chatId, setIsOpen }) => {
             );
           })}
         </div>
-        <Link href="/api/auth/logout" className="side-menu-item">
+        <Link href="/api/auth/logout" className="side-menu-item mt-10">
           <FontAwesomeIcon icon={faRightFromBracket} />
           Log out
         </Link>
